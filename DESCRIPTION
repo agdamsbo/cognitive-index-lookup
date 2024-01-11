@@ -1,0 +1,26 @@
+Package: cognitive-index-lookup
+Title: Cognitive index score for specific assessment tool
+Version: 24.1.1
+Authors@R: 
+    person("Andreas Gammelgaard", "Damsbo", , "agdamsbo@clin.au.dk", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-7559-1154"))
+Description: Index table lookup for summarised raw scores for the RBANS tool.
+License: GPL (>= 3)
+Encoding: UTF-8
+Imports: 
+    here,
+    shiny,
+    shinylive,
+    httpuv,
+    ggplot2,
+    dplyr,
+    tidyr,
+    vctrs (>= 0.6.4),
+    patchwork,
+    tidyselect
+Suggests: 
+    pak,
+    renv,
+    usethis
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
