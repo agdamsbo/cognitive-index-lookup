@@ -1,4 +1,4 @@
-Package: cognitive-index-lookup
+Package: cognitive.index.lookup
 Title: Cognitive index score for specific assessment tool
 Version: 24.1.1
 Authors@R: 
@@ -17,10 +17,18 @@ Imports:
     tidyr,
     vctrs (>= 0.6.4),
     patchwork,
-    tidyselect
+    tidyselect,
+    REDCapCAST
 Suggests: 
+    lubridate,
     pak,
     renv,
+    roxygen2,
+    rsconnect,
+    styler,
     usethis
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Depends: 
+    R (>= 2.10)
+LazyData: true
