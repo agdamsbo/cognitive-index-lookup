@@ -3,8 +3,6 @@ server <- function(input, output, session) {
   require(ggplot2)
   require(tidyr)
   require(cognitive.index.lookup)
-  # source("https://raw.githubusercontent.com/agdamsbo/ENIGMAtrial_R/main/src/plot_index.R")
-  # source("https://raw.githubusercontent.com/agdamsbo/ENIGMAtrial_R/main/src/index_from_raw.R")
   
   dat <- reactive({
     df <- data.frame(
