@@ -2,11 +2,10 @@
 % Please edit documentation in R/plot_index.R
 \name{plot_index}
 \alias{plot_index}
-\title{Plot index data}
+\title{Plot index data. Assumes first column is id}
 \usage{
 plot_index(
   ds,
-  id = "record_id",
   sub_plot = "_is",
   scores = c("_is", "_lo", "_up", "_ci", "_per"),
   dom_names = c("immediate", "visuospatial", "verbal", "attention", "delayed", "total"),
@@ -15,8 +14,6 @@ plot_index(
 }
 \arguments{
 \item{ds}{data frame}
-
-\item{id}{colname  of id column. Base for colourin}
 
 \item{sub_plot}{column subset to plot}
 
@@ -30,9 +27,9 @@ plot_index(
 ggplot list object
 }
 \description{
-Plot index data
+Plot index data. Assumes first column is id
 }
 \examples{
-ds <- sample_data |> index_from_raw()
-ds |> plot_index(id="id",facet.by="version")
+ds <- sample_data |> dplyr::filter(ab=="1") |> index_from_raw()
+ds |> plot_index(facet.by="ab")
 }

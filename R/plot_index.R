@@ -1,7 +1,6 @@
-#' Plot index data
+#' Plot index data. Assumes first column is id
 #'
 #' @param ds data frame
-#' @param id colname  of id column. Base for colourin
 #' @param sub_plot column subset to plot
 #' @param scores name bits of score variables
 #' @param dom_names domain names
@@ -12,15 +11,16 @@
 #'
 #' @examples
 #' ds <- sample_data |> dplyr::filter(ab=="1") |> index_from_raw()
-#' ds |> plot_index(id="id",facet.by="version")
+#' ds |> plot_index(facet.by="ab")
 plot_index <- function(ds,
-                       id="record_id",
                        sub_plot="_is",
                        scores=c("_is","_lo","_up","_ci","_per"),
                        dom_names=c("immediate","visuospatial","verbal","attention","delayed","total"),
                        facet.by=NULL){
 
   plot_prep <- function(data){
+    id <- colnames(ds)[1]
+    
     data|>
       dplyr::select(tidyselect::all_of(c(id,
                       facet.by,

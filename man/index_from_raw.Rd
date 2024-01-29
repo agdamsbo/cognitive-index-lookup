@@ -2,11 +2,10 @@
 % Please edit documentation in R/index_from_raw.R
 \name{index_from_raw}
 \alias{index_from_raw}
-\title{Calculates index scores from raw domain data input}
+\title{Calculates index scores from raw domain data input. Assumes first column is id}
 \usage{
 index_from_raw(
   ds,
-  id.col = "id",
   indx = index_table,
   version.col = "ab",
   age.col = "age",
@@ -16,8 +15,6 @@ index_from_raw(
 }
 \arguments{
 \item{ds}{data set}
-
-\item{id.col}{id column name}
 
 \item{indx}{index file}
 
@@ -33,8 +30,9 @@ index_from_raw(
 data.frame
 }
 \description{
-Calculates index scores from raw domain data input
+Calculates index scores from raw domain data input. Assumes first column is id
 }
 \examples{
-sample_data |> index_from_raw()
+ds <- sample_data 
+ds |> index_from_raw()
 }

@@ -12,6 +12,3 @@ shiny app
 \description{
 Launch the included Shiny-app for index calculations
 }
-\examples{
-shiny_index()
-}

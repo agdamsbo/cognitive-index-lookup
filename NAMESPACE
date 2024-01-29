@@ -3,6 +3,5 @@
 export(index_from_raw)
 export(plot_index)
 export(plot_index2)
-export(server_factory)
+export(shiny_deploy_index)
 export(shiny_index)
-export(ui_factory)

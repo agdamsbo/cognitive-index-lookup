@@ -1,10 +1,9 @@
-#' Calculates index scores from raw domain data input
+#' Calculates index scores from raw domain data input. Assumes first column is id
 #'
 #' @param ds data set
 #' @param indx index file
 #' @param raw_columns column names of raw data columns
 #' @param mani flag to manipulate index data for plotting
-#' @param id.col id column name
 #' @param version.col version column name
 #' @param age.col age column name
 #'
@@ -15,7 +14,6 @@
 #' ds <- sample_data 
 #' ds |> index_from_raw()
 index_from_raw <- function(ds, 
-                           id.col = "id", 
                            indx = index_table, 
                            version.col = "ab", 
                            age.col = "age", 
@@ -87,7 +85,7 @@ index_from_raw <- function(ds,
   # Creating DF to populate with extracted data from table look-up
   col_names_all <- c("id", col_names_index, col_names_95pct, col_names_percentile)
   df <- data.frame(matrix(1:length(col_names_all), ncol = length(col_names_all), nrow = nrow(ds), byrow = T))
-  df[[1]] <- ds[[id.col]]
+  df[[1]] <- ds[[1]]
   colnames(df) <- col_names_all
 
   dt <- ds
@@ -158,6 +156,6 @@ index_from_raw <- function(ds,
     
   }
   
-  dplyr::tibble(df,version=version)
+  dplyr::tibble(df,ds[version.col])
   
 }
