@@ -295,5 +295,5 @@ shiny_deploy_index <- function(){
     secret = keyring::key_get(service = "rsconnect_cognitiveindex_secret")
   )
   
-  rsconnect::deployApp(appDir = here::here("app"),appName = "index_app")
+  rsconnect::deployApp(appDir = here::here("app/"),appName = "index_app")
 }

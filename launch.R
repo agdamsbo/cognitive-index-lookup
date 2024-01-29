@@ -12,7 +12,7 @@ httpuv::runStaticServer(dir = "docs")
 
 # Deploy on rsconnect
 
-shiny_deploy()
+shiny_deploy_index()
 
 ## Examples
 
