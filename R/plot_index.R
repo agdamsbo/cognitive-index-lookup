@@ -1,7 +1,4 @@
-library(readr)
-index <- read.csv("data/index.csv")
-
-#' Title
+#' Plot index data
 #'
 #' @param ds data frame
 #' @param id colname  of id column. Base for colourin
@@ -10,12 +7,11 @@ index <- read.csv("data/index.csv")
 #' @param dom_names domain names
 #' @param facet.by variable to base facet_grid on.
 #'
-#' @return
+#' @return ggplot list object
 #' @export
 #'
 #' @examples
-#' load(here::here("data/sample_data.rda"))
-#' ds <- sample_data |> index_from_raw()
+#' ds <- sample_data |> dplyr::filter(ab=="1") |> index_from_raw()
 #' ds |> plot_index(id="id",facet.by="version")
 plot_index <- function(ds,
                        id="record_id",
@@ -24,18 +20,11 @@ plot_index <- function(ds,
                        dom_names=c("immediate","visuospatial","verbal","attention","delayed","total"),
                        facet.by=NULL){
 
-  # id colname  of id column. Base for colouring
-  # ds data frame
-  # sub_plot column subset to plot
-  # scores name bits of score variables
-  # dom_names domain names
-  # facet.by variable to base facet_grid on.
- 
   plot_prep <- function(data){
     data|>
-      dplyr::select(c(id,
+      dplyr::select(tidyselect::all_of(c(id,
                       facet.by,
-                      names(ds)[grepl(paste(scores,collapse="|"),names(ds))]))|>
+                      names(ds)[grepl(paste(scores,collapse="|"),names(ds))])))|>
       tidyr::pivot_longer(cols=-c(id,facet.by))|>
       subset(grepl(sub_plot,name))|>
       dplyr::mutate(value=suppressWarnings(as.numeric(value)),
@@ -43,13 +32,22 @@ plot_index <- function(ds,
                     id=as.numeric(id))
   }
   
-  df_plot<-ds |> head(10) |> plot_prep()
+  if (!is.null(facet.by)){
+    if (length(unique(ds[[facet.by]]))==1){
+      message("Only one level in facet variable. No facetting performed.")
+      facet.by <- NULL
+    }
+  }
+  
+  df_plot<-ds |> plot_prep()
+
   
   if (!is.null(facet.by)){
-    colnames(df_plot)<-c("id","facet","name","value")
-  } else {
-    colnames(df_plot)<-c("id","name","value")
-  }
+    df_plot <- df_plot |> (\(x) {
+      colnames(x)[2] <- "facet"
+      x
+      })()
+  } 
 
   index_sub_plot <- function(data){
     data|>
@@ -78,12 +76,9 @@ plot_index <- function(ds,
     require(patchwork)
     list|> purrr::list_flatten() |> 
       lapply(fun) |> 
-      patchwork::wrap_plots(guides="collect",ncol=2,widths=c(5,1),tag_level = "new") +
-      patchwork::plot_annotation(tag_levels = list(c("A - Domains","A - Total","B - Domains","B - Total")))
+      patchwork::wrap_plots(guides="collect",ncol=2,widths=c(5,1),tag_level = "new") 
   }
   
-  
-require(patchwork)
 if (sub_plot=="_is"){
   
   if (!is.null(facet.by)){
@@ -100,9 +95,7 @@ if (sub_plot=="_is"){
       setNames(c("domains","total")) |> 
       plot_stitch()
   }
-}
-
-if (sub_plot=="_per"){
+} else if (sub_plot=="_per"){
   
   if (!is.null(facet.by)){
     df_plot |> (\(x)split(x,x$facet))()|> setNames(c("a","b")) |> 
@@ -119,19 +112,17 @@ if (sub_plot=="_per"){
       plot_stitch(percentile_sub_plot)
   }
 }
-  
-
-if (!is.null(facet.by)){
-  index_plot + ggplot2::facet_grid(cols=ggplot2::vars(facet)) +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust=1)) 
-    
-} else {
-  index_plot
 }
 
-}
-
+#' Plot index and percentile
+#'
+#' @param ds data set
+#' @param ... arguments passed
+#'
+#' @return ggplot list
+#' @export
 plot_index2 <- function(ds, ...){
   require(patchwork)
-  plot_index(ds)/plot_index(ds,sub_plot = "_per")
+  patchwork::wrap_plots(list(plot_index(ds),plot_index(ds,sub_plot = "_per")),nrow = 2) &
+    ggplot2::theme(legend.position = "none")
 }

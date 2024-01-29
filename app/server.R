@@ -2,7 +2,8 @@ server <- function(input, output, session) {
   require(dplyr)
   require(ggplot2)
   require(tidyr)
-  source("https://raw.githubusercontent.com/agdamsbo/ENIGMAtrial_R/main/src/plot_index.R")
+  require(cognitive.index.lookup)
+  # source("https://raw.githubusercontent.com/agdamsbo/ENIGMAtrial_R/main/src/plot_index.R")
   source("https://raw.githubusercontent.com/agdamsbo/ENIGMAtrial_R/main/src/index_from_raw.R")
 
   dat<-reactive({

@@ -1,6 +1,7 @@
 # Typical shiny
-source(here::here("R/shiny_index.R"))
 shiny_index()
+
+shiny::runApp(appDir = here::here("app/"),launch.browser = TRUE)
 
 
 # Shinylive version
@@ -24,3 +25,20 @@ shiny_deploy <- function(){
 }
 
 shiny_deploy()
+
+## Examples
+
+load(here::here("data/sample_data.rda"))
+
+sample_data |> 
+  index_from_raw() |> 
+  head(10) |> 
+  plot_index(id="id",facet.by="version") &
+  patchwork::plot_annotation(tag_levels = list(c("A","","B","")))
+
+sample_data |> 
+  index_from_raw() |> 
+  dplyr::filter(version=="a") |> 
+  head(5) |> 
+  plot_index2(id="id",facet.by="version") #&
+  # patchwork::plot_annotation(tag_levels = list(c("Score","","Percentile","")))

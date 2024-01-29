@@ -1,21 +1,22 @@
-#' Title
+#' Calculates index scores from raw domain data input
 #'
-#' @param ds
-#' @param indx
-#' @param version
-#' @param age
-#' @param raw_columns
-#' @param mani
+#' @param ds data set
+#' @param indx index file
+#' @param raw_columns column names of raw data columns
+#' @param mani flag to manipulate index data for plotting
+#' @param id.col id column name
+#' @param version.col version column name
+#' @param age.col age column name
 #'
-#' @return
+#' @return data.frame
 #' @export
 #'
 #' @examples
-#' load(here::here("data/sample_data.rda"))
-#' sample_data |> index_from_raw()
+#' ds <- sample_data 
+#' ds |> index_from_raw()
 index_from_raw <- function(ds, 
                            id.col = "id", 
-                           indx = read.csv(here::here("data/index.csv")), 
+                           indx = index_table, 
                            version.col = "ab", 
                            age.col = "age", 
                            raw_columns = c("imm", "vis", "ver", "att", "del"), 
@@ -38,7 +39,7 @@ index_from_raw <- function(ds,
   )
 
   ## Categorizing age to age interval of index lists
-  ndx_nms <- unique(unlist(sapply(strsplit(unique(indx$grp), "[_]"), "[[", 2)))[1:6]
+  ndx_nms <- unique(unlist(sapply(strsplit(unique(indx[["grp"]]), "[_]"), "[[", 2)))[1:6]
 
   ## This is the only non-generalised part. Please be inspired and solve it your own way! :)
   ## Intervals are 20-39, 40-49, 50-59, 60-69, 70-79, 80-89.
@@ -64,7 +65,7 @@ index_from_raw <- function(ds,
   # Names of the different cognitive domains assigned
 
   ## Unique group names from index least
-  grps <- unique(indx$grp)
+  grps <- unique(indx[["grp"]])
 
   ## getting only domain names, and excluding the last, total, table, and splitting to list of vectors
   grps_split <- strsplit(grps[-length(grps)], "[_]")
@@ -134,7 +135,7 @@ index_from_raw <- function(ds,
     ## Total index score from index sum
     ttl_scale <- indx |> dplyr::filter(grepl("total_", grp))
 
-    ndx_sum <- sum(ndx)
+    ndx_sum <- sum(as.numeric(ndx))
     flt_ttl <- dplyr::filter(ttl_scale, raw == ndx_sum)
 
     ndx[length(ndx) + 1] <- flt_ttl$index
