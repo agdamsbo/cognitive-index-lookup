@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' ds <- sample_data
+#' ds <- cognitive.index.lookup::sample_data
 #' ds |> index_from_raw()
 index_from_raw <- function(ds,
                            indx = cognitive.index.lookup::index_table,
@@ -79,7 +79,7 @@ index_from_raw <- function(ds,
   col_names_percentile <- paste0(abc, "_per")
 
   # Creating DF to populate with extracted data from table look-up
-  col_names_all <- c("id", col_names_index, col_names_95pct, col_names_percentile)
+  col_names_all <- c(names(ds)[1], col_names_index, col_names_95pct, col_names_percentile)
   df <- data.frame(matrix(1:length(col_names_all), ncol = length(col_names_all), nrow = nrow(ds), byrow = T))
   df[[1]] <- ds[[1]]
   colnames(df) <- col_names_all

@@ -33,6 +33,6 @@ data.frame
 Calculates index scores from raw domain data input. Assumes first column is id
 }
 \examples{
-ds <- sample_data
+ds <- cognitive.index.lookup::sample_data
 ds |> index_from_raw()
 }
