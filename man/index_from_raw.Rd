@@ -6,7 +6,7 @@
 \usage{
 index_from_raw(
   ds,
-  indx = index_table,
+  indx = cognitive.index.lookup::index_table,
   version.col = "ab",
   age.col = "age",
   raw_columns = c("imm", "vis", "ver", "att", "del"),
@@ -18,7 +18,7 @@ index_from_raw(
 
 \item{indx}{index file}
 
-\item{version.col}{version column name}
+\item{version.col}{version column name. The function will check formatting}
 
 \item{age.col}{age column name}
 
@@ -33,6 +33,6 @@ data.frame
 Calculates index scores from raw domain data input. Assumes first column is id
 }
 \examples{
-ds <- sample_data 
+ds <- sample_data
 ds |> index_from_raw()
 }

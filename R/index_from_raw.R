@@ -4,37 +4,33 @@
 #' @param indx index file
 #' @param raw_columns column names of raw data columns
 #' @param mani flag to manipulate index data for plotting
-#' @param version.col version column name
+#' @param version.col version column name. The function will check formatting
 #' @param age.col age column name
 #'
 #' @return data.frame
 #' @export
 #'
 #' @examples
-#' ds <- sample_data 
+#' ds <- sample_data
 #' ds |> index_from_raw()
-index_from_raw <- function(ds, 
-                           indx = index_table, 
-                           version.col = "ab", 
-                           age.col = "age", 
-                           raw_columns = c("imm", "vis", "ver", "att", "del"), 
+index_from_raw <- function(ds,
+                           indx = cognitive.index.lookup::index_table,
+                           version.col = "ab",
+                           age.col = "age",
+                           raw_columns = c("imm", "vis", "ver", "att", "del"),
                            mani = TRUE) {
-  # mani flag to correct percentile denotion for plotting
-
-  # Troubleshooting
-  # ds = select(dta,c("record_id",ends_with("_rs")))
-  # indx=read.csv("https://raw.githubusercontent.com/agdamsbo/ENIGMAtrial_R/main/data/index.csv")
-  # version = dta$urbans_version
-  # age=dta$rbans_age
-  # raw_columns=names(select(dta,ends_with("_rs")))
-
-  version <- ds[[{{ version.col }}]]
+  version <- ds[[{{ version.col }}]] |> tolower()
   age <- ds[[{{ age.col }}]]
 
-  version <- dplyr::case_when(
-    version == "1" ~ "a",
-    version == "2" ~ "b"
-  )
+  if (!any(c("a", "b") %in% version)) {
+    version <- dplyr::case_when(version == "1" ~ "a", version ==
+      "2" ~ "b")
+  }
+
+  if (any(is.na(version))) {
+    stop("The version column should be coded A/a/1 and B/b/2 with no missings.
+         It seems there are some missing or the data is formatted wrong")
+  }
 
   ## Categorizing age to age interval of index lists
   ndx_nms <- unique(unlist(sapply(strsplit(unique(indx[["grp"]]), "[_]"), "[[", 2)))[1:6]
@@ -120,7 +116,7 @@ index_from_raw <- function(ds,
       # Index score
       # s=1
       flt <- lst[[s]] |>
-        dplyr::filter(raw == dt[i, raw_columns[s]]) |>
+        dplyr::filter(raw == dplyr::select(dt,tidyselect::contains(raw_columns[s]))[i,]) |>
         dplyr::filter(ver == v)
 
       ndx[s] <- flt$index
@@ -153,9 +149,10 @@ index_from_raw <- function(ds,
       )
       ## Using the dplyr::if_else for a more stringent vectorisation
     }
-    
   }
-  
-  dplyr::tibble(df,ds[version.col])
-  
+
+  dplyr::tibble(df, ds[version.col]) |> 
+    dplyr::select(names(ds)[1], 
+                  tidyselect::all_of(version.col), 
+                  dplyr::everything())
 }
