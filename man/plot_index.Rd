@@ -5,15 +5,16 @@
 \title{Plot index data. Assumes first column is id}
 \usage{
 plot_index(
-  ds,
+  data,
   sub_plot = "_is",
-  scores = c("_is", "_lo", "_up", "_ci", "_per"),
+  scores = c("_is", "_lo", "_up", "_per"),
   dom_names = c("immediate", "visuospatial", "verbal", "attention", "delayed", "total"),
-  facet.by = NULL
+  facet.by = NULL,
+  grp.color = colnames(data)[1]
 )
 }
 \arguments{
-\item{ds}{data frame}
+\item{data}{data set}
 
 \item{sub_plot}{column subset to plot}
 
@@ -22,6 +23,8 @@ plot_index(
 \item{dom_names}{domain names}
 
 \item{facet.by}{variable to base facet_grid on.}
+
+\item{grp.color}{color grouping for ggplot}
 }
 \value{
 ggplot list object
@@ -32,4 +35,5 @@ Plot index data. Assumes first column is id
 \examples{
 ds <- sample_data |> dplyr::filter(ab=="1") |> index_from_raw()
 ds |> plot_index(facet.by="ab")
+data <- ds
 }

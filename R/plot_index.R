@@ -1,10 +1,11 @@
 #' Plot index data. Assumes first column is id
 #'
-#' @param ds data frame
 #' @param sub_plot column subset to plot
 #' @param scores name bits of score variables
 #' @param dom_names domain names
 #' @param facet.by variable to base facet_grid on.
+#' @param data data set
+#' @param grp.color color grouping for ggplot
 #'
 #' @return ggplot list object
 #' @export
@@ -12,24 +13,27 @@
 #' @examples
 #' ds <- sample_data |> dplyr::filter(ab=="1") |> index_from_raw()
 #' ds |> plot_index(facet.by="ab")
-plot_index <- function(ds,
+#' data <- ds
+plot_index <- function(data,
                        sub_plot="_is",
-                       scores=c("_is","_lo","_up","_ci","_per"),
+                       scores=c("_is","_lo","_up","_per"), # this will do for now. _lo and _up should be included to allow for apron plot. could work with summarise?
                        dom_names=c("immediate","visuospatial","verbal","attention","delayed","total"),
-                       facet.by=NULL){
-
-  plot_prep <- function(data){
-    id <- colnames(ds)[1]
-    
-    data|>
-      dplyr::select(tidyselect::all_of(c(id,
-                      facet.by,
-                      names(ds)[grepl(paste(scores,collapse="|"),names(ds))])))|>
-      tidyr::pivot_longer(cols=-c(id,facet.by))|>
+                       facet.by=NULL,
+                       grp.color=colnames(data)[1]){
+  
+  plot_prep <- function(data,sub_plot,scores,grp.color){
+    out <- data|>
+      dplyr::select(tidyselect::all_of(c(colnames(dplyr::select(data,tidyselect::matches(grp.color))),
+                                         {{facet.by}},
+                                         names(dplyr::select(data,tidyselect::ends_with(c(scores,do.call(c,lapply(scores,paste,dom_names,sep = "_"))))))
+                                         # names(dplyr::select(data,tidyselect::starts_with("test")))
+      )))|>
+      tidyr::pivot_longer(cols=-tidyselect::all_of(c(grp.color,facet.by)))|>
       subset(grepl(sub_plot,name))|>
-      dplyr::mutate(value=suppressWarnings(as.numeric(value)),
-                    name=factor(name,labels = dom_names),
-                    id=as.numeric(id))
+      dplyr::mutate(name=factor(name,labels = dom_names),
+                    value=as.numeric(value))
+    out[[1]] <- factor(out[[1]])
+    out
   }
   
   if (!is.null(facet.by)){
@@ -39,79 +43,82 @@ plot_index <- function(ds,
     }
   }
   
-  df_plot<-ds |> plot_prep()
-
+  df_plot<-data |> plot_prep(sub_plot,scores,grp.color)
   
   if (!is.null(facet.by)){
     df_plot <- df_plot |> (\(x) {
       colnames(x)[2] <- "facet"
       x
-      })()
-  } 
-
-  index_sub_plot <- function(data){
+    })()
+  }
+  
+  index_sub_plot <- function(data,grp.color){
+    grp <- data[[grp.color]]
+    
     data|>
-      ggplot2::ggplot(ggplot2::aes(x=name, y=value, color=factor(id), group=factor(id))) + 
+      ggplot2::ggplot(ggplot2::aes(x=name, y=value, color=grp, group=grp)) +
       ggplot2::geom_point() +
       ggplot2::geom_path() +
       ggplot2::expand_limits(y=c(40,160)) +
       ggplot2::scale_y_continuous(breaks=seq(40,160,by=10)) +
       ggplot2::ylab(label=NULL) +
       ggplot2::xlab(label = NULL)+
-      ggplot2::labs(colour = "ID")
+      ggplot2::labs(colour = grp.color)
   }
   
-  percentile_sub_plot <- function(data){
-  data|>
-    ggplot2::ggplot(ggplot2::aes(x=name, y=value, fill=factor(id)))+
-    ggplot2::geom_col(position = "dodge") +
-    ggplot2::expand_limits(y=c(0,100)) +
-    ggplot2::scale_y_continuous(breaks=seq(0,100,by=10)) +
+  percentile_sub_plot <- function(data,grp.color){
+    grp <- data[[grp.color]]
+    
+    data|>
+      ggplot2::ggplot(ggplot2::aes(x=name, y=value, fill=grp))+
+      ggplot2::geom_col(position = "dodge") +
+      ggplot2::expand_limits(y=c(0,100)) +
+      ggplot2::scale_y_continuous(breaks=seq(0,100,by=10)) +
       ggplot2::ylab(label=NULL) +
       ggplot2::xlab(label = NULL)+
-    ggplot2::labs(fill = "ID")
-    }
-
-  plot_stitch <- function(list,fun=index_sub_plot){
+      ggplot2::labs(fill = grp.color)
+  }
+  
+  plot_stitch <- function(list,fun=index_sub_plot,grp.color){
     require(patchwork)
-    list|> purrr::list_flatten() |> 
-      lapply(fun) |> 
-      patchwork::wrap_plots(guides="collect",ncol=2,widths=c(5,1),tag_level = "new") 
+    list|> purrr::list_flatten() |>
+      lapply(fun,grp.color) |>
+      patchwork::wrap_plots(guides="collect",ncol=2,widths=c(5,1),tag_level = "new")
   }
   
-if (sub_plot=="_is"){
-  
-  if (!is.null(facet.by)){
-  df_plot |> (\(x)split(x,x$facet))()|> setNames(c("a","b")) |> 
-    lapply(\(x){
-        split(x,x$name=="total") |> 
-        setNames(c("domains","total"))
-  }) |> plot_stitch()
-  
-  } else {
-    df_plot |> (\(x){
-        split(x,x$name=="total")
-      })()|> 
-      setNames(c("domains","total")) |> 
-      plot_stitch()
-  }
-} else if (sub_plot=="_per"){
-  
-  if (!is.null(facet.by)){
-    df_plot |> (\(x)split(x,x$facet))()|> setNames(c("a","b")) |> 
-      lapply(\(x){
-        split(x,x$name=="total") |> 
-          setNames(c("domains","total"))
-      }) |> plot_stitch(percentile_sub_plot)
+  if (sub_plot=="_is"){
     
-  } else {
-    df_plot |> (\(x){
-      split(x,x$name=="total")
-    })()|> 
-      setNames(c("domains","total")) |> 
-      plot_stitch(percentile_sub_plot)
+    if (!is.null(facet.by)){
+      df_plot |> (\(x)split(x,x$facet))()|> setNames(c("a","b")) |>
+        lapply(\(x){
+          split(x,x$name=="total") |>
+            setNames(c("domains","total"))
+        }) |> plot_stitch()
+      
+    } else {
+      df_plot |> (\(x){
+        split(x,x$name=="total")
+      })()|>
+        setNames(c("domains","total")) |>
+        plot_stitch(grp.color=grp.color)
+    }
+  } else if (sub_plot=="_per"){
+    
+    if (!is.null(facet.by)){
+      df_plot |> (\(x)split(x,x$facet))()|> setNames(c("a","b")) |>
+        lapply(\(x){
+          split(x,x$name=="total") |>
+            setNames(c("domains","total"))
+        }) |> plot_stitch(percentile_sub_plot,grp.color=grp.color)
+      
+    } else {
+      df_plot |> (\(x){
+        split(x,x$name=="total")
+      })()|>
+        setNames(c("domains","total")) |>
+        plot_stitch(fun=percentile_sub_plot,grp.color)
+    }
   }
-}
 }
 
 #' Plot index and percentile
