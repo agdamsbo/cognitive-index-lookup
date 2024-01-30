@@ -151,8 +151,5 @@ index_from_raw <- function(ds,
     }
   }
 
-  dplyr::tibble(df, ds[version.col]) |> 
-    dplyr::select(names(ds)[1], 
-                  tidyselect::all_of(version.col), 
-                  dplyr::everything())
+  dplyr::left_join(ds,dplyr::tibble(df, ds[{{version.col}}]), by=c(names(ds)[1],{{version.col}}))
 }
