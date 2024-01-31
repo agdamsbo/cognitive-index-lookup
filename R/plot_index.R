@@ -57,7 +57,7 @@ plot_index <- function(data,
     
     data|>
       ggplot2::ggplot(ggplot2::aes(x=name, y=value, color=grp, group=grp)) +
-      ggplot2::geom_path(linewidth=1.5) +
+      ggplot2::geom_path(linewidth=1) +
       ggplot2::geom_point(size=5) +
       ggplot2::expand_limits(y=c(40,160)) +
       ggplot2::scale_y_continuous(breaks=seq(40,160,by=10)) +
