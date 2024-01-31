@@ -37,7 +37,7 @@ plot_index <- function(data,
   }
   
   if (!is.null(facet.by)){
-    if (length(unique(ds[[facet.by]]))==1){
+    if (length(unique(data[[facet.by]]))==1){
       message("Only one level in facet variable. No facetting performed.")
       facet.by <- NULL
     }
@@ -57,8 +57,8 @@ plot_index <- function(data,
     
     data|>
       ggplot2::ggplot(ggplot2::aes(x=name, y=value, color=grp, group=grp)) +
-      ggplot2::geom_point() +
-      ggplot2::geom_path() +
+      ggplot2::geom_path(linewidth=1.5) +
+      ggplot2::geom_point(size=5) +
       ggplot2::expand_limits(y=c(40,160)) +
       ggplot2::scale_y_continuous(breaks=seq(40,160,by=10)) +
       ggplot2::ylab(label=NULL) +
@@ -123,13 +123,13 @@ plot_index <- function(data,
 
 #' Plot index and percentile
 #'
-#' @param ds data set
+#' @param data data set
 #' @param ... arguments passed
 #'
 #' @return ggplot list
 #' @export
-plot_index2 <- function(ds, ...){
+plot_index2 <- function(data, ...){
   require(patchwork)
-  patchwork::wrap_plots(list(plot_index(ds),plot_index(ds,sub_plot = "_per")),nrow = 2) &
+  patchwork::wrap_plots(list(plot_index(data),plot_index(data,sub_plot = "_per")),nrow = 2) &
     ggplot2::theme(legend.position = "none")
 }

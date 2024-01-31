@@ -4,10 +4,10 @@
 \alias{plot_index2}
 \title{Plot index and percentile}
 \usage{
-plot_index2(ds, ...)
+plot_index2(data, ...)
 }
 \arguments{
-\item{ds}{data set}
+\item{data}{data set}
 
 \item{...}{arguments passed}
 }

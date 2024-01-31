@@ -5,7 +5,7 @@ server <- function(input, output, session) {
   require(cognitive.index.lookup)
   
   dat <- reactive({
-    df <- data.frame(
+    data.frame(
       "id" = "1",
       "ab" = input$ab,
       "age" = input$age,
@@ -16,7 +16,7 @@ server <- function(input, output, session) {
       "del" = input$rs5,
       stringsAsFactors = FALSE
     )
-    return(df)
+    
   })
   
   dat_u <- reactive({
@@ -27,13 +27,11 @@ server <- function(input, output, session) {
     
     req(input$file1)
     
-    df <- read.csv(input$file1$datapath,
+    read.csv(input$file1$datapath,
                    header = input$header,
                    sep = input$sep,
                    quote = input$quote
     )
-    
-    return(df)
   })
   
   dat_f <- reactive({
@@ -45,8 +43,7 @@ server <- function(input, output, session) {
   })
   
   index_p <- reactive({
-    index_from_raw(
-      ds = dat_f(),
+    dat_f() |> index_from_raw(
       indx = index_table,
       version.col = "ab",
       age.col = "age",
@@ -69,11 +66,11 @@ server <- function(input, output, session) {
   
   
   output$ndx.plt <- renderPlot({
-    plot_index(index_p(), sub_plot = "_is", facet.by = "ab")
+    index_p() |> plot_index(sub_plot = "_is", facet.by = "ab")
   })
   
   output$per.plt <- renderPlot({
-    plot_index(index_p(), sub_plot = "_per", facet.by = "ab")
+    index_p() |> plot_index(sub_plot = "_per", facet.by = "ab")
   })
   
   # Downloadable csv of selected dataset ----
