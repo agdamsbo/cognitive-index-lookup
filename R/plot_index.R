@@ -57,6 +57,9 @@ plot_index <- function(data,
     
     data|>
       ggplot2::ggplot(ggplot2::aes(x=name, y=value, color=grp, group=grp)) +
+      ggplot2::geom_hline(yintercept = 100, alpha=.8)+
+      ggplot2::geom_hline(yintercept = 85, alpha=.8, linetype="dashed")+
+      ggplot2::geom_hline(yintercept = 70, alpha=.8, linetype="dotdash")+
       ggplot2::geom_path(linewidth=1) +
       ggplot2::geom_point(size=5) +
       ggplot2::expand_limits(y=c(40,160)) +
