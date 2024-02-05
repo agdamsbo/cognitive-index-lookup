@@ -3,7 +3,11 @@ server <- function(input, output, session) {
   require(ggplot2)
   require(tidyr)
   require(cognitive.index.lookup)
+  # To allow shinylive running, functions are directly sourced:
+  # source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/index_from_raw.R")
+  # source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/plot_index.R")
   
+    
   dat <- reactive({
     data.frame(
       "id" = "1",
@@ -31,7 +35,7 @@ server <- function(input, output, session) {
                    header = input$header,
                    sep = input$sep,
                    quote = input$quote
-    )
+    ) 
   })
   
   dat_f <- reactive({
