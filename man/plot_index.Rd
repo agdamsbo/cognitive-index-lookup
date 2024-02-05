@@ -10,13 +10,13 @@ plot_index(
   scores = c("_is", "_lo", "_up", "_per"),
   dom_names = c("immediate", "visuospatial", "verbal", "attention", "delayed", "total"),
   facet.by = NULL,
-  grp.color = colnames(data)[1]
+  grp.color = NULL
 )
 }
 \arguments{
 \item{data}{data set}
 
-\item{sub_plot}{column subset to plot}
+\item{sub_plot}{column subset to plot. Can be "_is" or "_per".}
 
 \item{scores}{name bits of score variables}
 
@@ -33,7 +33,8 @@ ggplot list object
 Plot index data. Assumes first column is id
 }
 \examples{
-ds <- sample_data |> dplyr::filter(ab=="1") |> index_from_raw()
-ds |> plot_index(facet.by="ab")
+ds <- sample_data  |> index_from_raw()
+ds |> tibble::tibble() |> dplyr::filter(ab=="1") |>  plot_index(facet.by="ab")
+ds |> tibble::tibble() |>  plot_index()
 data <- ds
 }

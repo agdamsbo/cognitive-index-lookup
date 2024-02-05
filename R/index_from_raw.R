@@ -37,14 +37,7 @@ index_from_raw <- function(ds,
 
   ## This is the only non-generalised part. Please be inspired and solve it your own way! :)
   ## Intervals are 20-39, 40-49, 50-59, 60-69, 70-79, 80-89.
-  ## Tried to use dplyr::case_when, didn't work
   ## Make universal by drawing interval names (needs to be changed to smth like "index_70.79" to use substr) and the use "for loop".
-  # index_age<-ifelse(age>=18&age<=39,ndx_nms[1],
-  #                   ifelse(age>=40&age<=49,ndx_nms[2],
-  #                          ifelse(age>=50&age<=59,ndx_nms[3],
-  #                                 ifelse(age>=60&age<=69,ndx_nms[4],
-  #                                        ifelse(age>=70&age<=79,ndx_nms[5],
-  #                                               ifelse(age>=80,ndx_nms[6],NA))))))
 
   # index_age<-
   index_age <- dplyr::case_match(
