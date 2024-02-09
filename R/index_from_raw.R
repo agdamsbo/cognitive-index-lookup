@@ -22,6 +22,10 @@ index_from_raw <- function(ds,
   version <- ds[[{{ version.col }}]] |> tolower()
   age <- ds[[{{ age.col }}]]
 
+  dt <- ds
+  
+  ds <- ds |> dplyr::select(tidyselect::all_of(c(version.col,age.col,raw_columns)))
+  
   if (!any(c("a", "b") %in% version)) {
     version <- dplyr::case_when(version == "1" ~ "a", version ==
       "2" ~ "b")
@@ -77,7 +81,7 @@ index_from_raw <- function(ds,
   df[[1]] <- ds[[1]]
   colnames(df) <- col_names_all
 
-  dt <- ds
+  # dt <- ds
 
   ## Create one function for when data provided is a list and when it is a data.frame. Currently works with data.frame
 
@@ -109,7 +113,7 @@ index_from_raw <- function(ds,
       # Index score
       # s=1
       flt <- lst[[s]] |>
-        dplyr::filter(raw == dplyr::select(dt,tidyselect::contains(raw_columns[s]))[i,]) |>
+        dplyr::filter(raw == dplyr::select(dt,tidyselect::contains(raw_columns[[s]]))[[1]][i]) |>
         dplyr::filter(ver == v)
 
       ndx[s] <- flt$index
@@ -144,5 +148,5 @@ index_from_raw <- function(ds,
     }
   }
 
-  dplyr::left_join(ds,dplyr::tibble(df, ds[{{version.col}}]), by=c(names(ds)[1],{{version.col}}))
+  dplyr::left_join(dt,dplyr::tibble(dt[1],df), by=c(names(dt)[1],{{version.col}}))
 }

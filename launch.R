@@ -11,7 +11,7 @@ httpuv::runStaticServer(dir = "docs")
 # Publish on ... free, limited instance (old traditional shiny host)
 
 # Deploy on rsconnect
-
+# renv::install("agdamsbo/cognitive.index.lookup")
 cognitive.index.lookup::shiny_deploy_index()
 
 ## Examples

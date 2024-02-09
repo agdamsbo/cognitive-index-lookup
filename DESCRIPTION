@@ -10,8 +10,6 @@ Encoding: UTF-8
 Imports: 
     here,
     shiny,
-    shinylive,
-    httpuv,
     ggplot2,
     dplyr,
     tidyr,
@@ -21,6 +19,8 @@ Imports:
     REDCapCAST
 Suggests: 
     devtools,
+    shinylive,
+    httpuv,
     lubridate,
     pak,
     renv,

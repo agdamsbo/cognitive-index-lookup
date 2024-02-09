@@ -108,21 +108,6 @@
       ],
       "Hash": "5ea2700d21e038ace58269ecdbeb9ec0"
     },
-    "archive": {
-      "Package": "archive",
-      "Version": "1.1.7",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Requirements": [
-        "R",
-        "cli",
-        "cpp11",
-        "glue",
-        "rlang",
-        "tibble"
-      ],
-      "Hash": "4f97f3e44f7aca8557a51267e592a385"
-    },
     "askpass": {
       "Package": "askpass",
       "Version": "1.2.0",
@@ -186,16 +171,6 @@
         "utils"
       ],
       "Hash": "9fe98599ca456d6552421db0d6772d8f"
-    },
-    "brio": {
-      "Package": "brio",
-      "Version": "1.1.4",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R"
-      ],
-      "Hash": "68bd2b066e1fe780bbf62fc8bcc36de3"
     },
     "bslib": {
       "Package": "bslib",
@@ -278,10 +253,10 @@
     },
     "commonmark": {
       "Package": "commonmark",
-      "Version": "1.9.0",
+      "Version": "1.9.1",
       "Source": "Repository",
-      "Repository": "RSPM",
-      "Hash": "d691c61bff84bd63c383874d2d0c3307"
+      "Repository": "CRAN",
+      "Hash": "5d8225445acb167abf7797de48b2ee3c"
     },
     "cpp11": {
       "Package": "cpp11",
@@ -551,27 +526,6 @@
         "openssl"
       ],
       "Hash": "ac107251d9d9fd72f0ca8049988f1d7f"
-    },
-    "httr2": {
-      "Package": "httr2",
-      "Version": "1.0.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "R6",
-        "cli",
-        "curl",
-        "glue",
-        "lifecycle",
-        "magrittr",
-        "openssl",
-        "rappdirs",
-        "rlang",
-        "vctrs",
-        "withr"
-      ],
-      "Hash": "e2b30f1fc039a0bab047dd52bb20ef71"
     },
     "isoband": {
       "Package": "isoband",
@@ -988,24 +942,6 @@
         "xtable"
       ],
       "Hash": "3a1f41807d648a908e3c7f0334bf85e6"
-    },
-    "shinylive": {
-      "Package": "shinylive",
-      "Version": "0.1.1",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Requirements": [
-        "archive",
-        "brio",
-        "fs",
-        "httr2",
-        "jsonlite",
-        "progress",
-        "rappdirs",
-        "rlang",
-        "tools"
-      ],
-      "Hash": "f5bfd3d920801d2b7c958fc8457031a3"
     },
     "sodium": {
       "Package": "sodium",

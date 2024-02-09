@@ -9,3 +9,5 @@ troubles.R
 docs/shinylive/
 ^data-raw$
 ^app$
+^docs$
+^launch\.R$
