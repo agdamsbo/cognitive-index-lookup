@@ -14,6 +14,10 @@ plot_prep(data, sub_plot, scores, grp.color, facet.by, dom_names)
 \item{scores}{score variable name bits}
 
 \item{grp.color}{column to color}
+
+\item{facet.by}{variable to facet by}
+
+\item{dom_names}{domain names}
 }
 \value{
 data frame

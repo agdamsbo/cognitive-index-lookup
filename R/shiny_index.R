@@ -289,11 +289,16 @@ shiny_index <- function() {
 #' @return deploy
 #' @export
 shiny_deploy_index <- function(){
+  # Ensure to install latest package version
+  renv::install("agdamsbo/cognitive.index.lookup")
+  
+  # Connecting
   rsconnect::setAccountInfo(
     name = "cognitiveindex",
     token = keyring::key_get(service = "rsconnect_cognitiveindex_token"), 
     secret = keyring::key_get(service = "rsconnect_cognitiveindex_secret")
   )
   
-  rsconnect::deployApp(appDir = here::here("app/"),appName = "index_app")
+  # Deploying
+  rsconnect::deployApp(appDir = here::here("app/"),lint = TRUE,appName = "index_app",)
 }

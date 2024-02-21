@@ -4,6 +4,8 @@
 #' @param sub_plot sub plot ("_is" or "_per")
 #' @param scores score variable name bits
 #' @param grp.color column to color
+#' @param facet.by variable to facet by
+#' @param dom_names domain names
 #'
 #' @return data frame
 plot_prep <- function(data,sub_plot,scores,grp.color,facet.by,dom_names){
