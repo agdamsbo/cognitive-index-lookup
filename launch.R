@@ -20,12 +20,11 @@ cognitive.index.lookup::shiny_deploy_index()
 sample_data |> 
   index_from_raw() |> 
   head(10) |> 
-  plot_index(id="id",facet.by="version") &
+  plot_index(facet.by="ab") &
   patchwork::plot_annotation(tag_levels = list(c("A","","B","")))
 
 sample_data |> 
   index_from_raw() |> 
-  dplyr::filter(version=="a") |> 
   head(5) |> 
-  plot_index2(id="id",facet.by="version") #&
+  plot_index2(facet.by="ab") #&
   # patchwork::plot_annotation(tag_levels = list(c("Score","","Percentile","")))

@@ -99,7 +99,9 @@ ui <- fluidPage(
                 accept = c(
                   "text/csv",
                   "text/comma-separated-values,text/plain",
-                  ".csv"
+                  ".csv",
+                  ".xlsx",
+                  ".xls"
                 )
       ),
       h6("Columns: id, ab, age, imm, vis, ver, att, del.")
