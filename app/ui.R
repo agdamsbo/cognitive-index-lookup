@@ -1,5 +1,9 @@
 require(shiny)
 # require(ggplot2)
+# source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/index_from_raw.R")
+# source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/plot_index.R")
+# source(here::here("R/index_from_raw.R"))
+# source(here::here("R/plot_index.R"))
 
 ui <- fluidPage(
   
@@ -98,33 +102,34 @@ ui <- fluidPage(
                   ".csv"
                 )
       ),
-      h6("Columns: id, ab, age, imm, vis, ver, att, del."),
+      h6("Columns: id, ab, age, imm, vis, ver, att, del.")
+      # ,
       
       # Horizontal line ----
-      tags$hr(),
+      # tags$hr(),
       
       # Input: Checkbox if file has header ----
-      checkboxInput("header", "Header", TRUE),
+      # checkboxInput("header", "Header", TRUE),
       
       # Input: Select separator ----
-      radioButtons("sep", "Separator",
-                   choices = c(
-                     Comma = ",",
-                     Semicolon = ";",
-                     Tab = "\t"
-                   ),
-                   selected = ","
-      ),
+      # radioButtons("sep", "Separator",
+      #              choices = c(
+      #                Comma = ",",
+      #                Semicolon = ";",
+      #                Tab = "\t"
+      #              ),
+      #              selected = ","
+      # ),
       
       # Input: Select quotes ----
-      radioButtons("quote", "Quote",
-                   choices = c(
-                     None = "",
-                     "Double Quote" = '"',
-                     "Single Quote" = "'"
-                   ),
-                   selected = '"'
-      ),
+      # radioButtons("quote", "Quote",
+      #              choices = c(
+      #                None = "",
+      #                "Double Quote" = '"',
+      #                "Single Quote" = "'"
+      #              ),
+      #              selected = '"'
+      # ),
     ),
     
     

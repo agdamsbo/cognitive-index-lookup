@@ -7,6 +7,9 @@ server <- function(input, output, session) {
   # source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/index_from_raw.R")
   # source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/plot_index.R")
   
+  # source(here::here("R/index_from_raw.R"))
+  # source(here::here("R/plot_index.R"))
+  
     
   dat <- reactive({
     data.frame(
@@ -31,11 +34,12 @@ server <- function(input, output, session) {
     
     req(input$file1)
     
-    read.csv(input$file1$datapath,
-                   header = input$header,
-                   sep = input$sep,
-                   quote = input$quote
-    ) 
+    # read.csv(input$file1$datapath,
+    #                header = input$header,
+    #                sep = input$sep,
+    #                quote = input$quote
+    # ) 
+    read_input(input$file1$datapath)
   })
   
   dat_f <- reactive({

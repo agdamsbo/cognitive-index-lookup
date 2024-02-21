@@ -29,7 +29,8 @@ sample_data <- ds |> dplyr::select(c("record_id",ends_with(c("_version","_age","
       .x$id <- .y
       .x
     }) |> dplyr::bind_rows()
-  })() |> dplyr::mutate(id=as.numeric(id))
+  })() |> dplyr::mutate(id=as.numeric(id)) |> 
+  dplyr::filter(ab==1)
 
 
 usethis::use_data(sample_data, overwrite = TRUE)
