@@ -35,3 +35,4 @@ sample_data <- ds |> dplyr::select(c("record_id",ends_with(c("_version","_age","
 
 usethis::use_data(sample_data, overwrite = TRUE)
 write.csv(sample_data, here::here("data/sample.csv"), row.names = FALSE)
+openxlsx2::write_xlsx(x = sample_data, file = here::here("data/sample.xlsx"))

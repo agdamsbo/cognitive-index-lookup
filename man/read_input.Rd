@@ -4,14 +4,19 @@
 \alias{read_input}
 \title{Flexible file import based on extension}
 \usage{
-read_input(file)
+read_input(file, consider.na = c("NA", "\\"\\"", ""))
 }
 \arguments{
 \item{file}{file name}
+
+\item{consider.na}{character vector of strings to consider as NAs}
 }
 \value{
 tibble
 }
 \description{
 Flexible file import based on extension
+}
+\examples{
+read_input("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/data/sample.csv")
 }

@@ -35,4 +35,5 @@ Calculates index scores from raw domain data input. Assumes first column is id
 \examples{
 ds <- cognitive.index.lookup::sample_data
 ds |> index_from_raw()
+read_input("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/data/sample.csv") |> index_from_raw()
 }
