@@ -166,9 +166,18 @@ plot_index <- function(data,
 #'
 #' @return ggplot list
 #' @export
+#' 
+#' @examples
+#' sample_data |> 
+#'  index_from_raw() |> 
+#'  dplyr::filter(id %in% 1:5) |>
+#'  dplyr::filter(ab==1) |>
+#'  plot_index2(facet.by="ab")
+#' 
 plot_index2 <- function(data, ...){
-  require(patchwork)
-  patchwork::wrap_plots(list(plot_index(data),plot_index(data,sub_plot = "_per")),nrow = 2) &
+  patchwork::wrap_plots(list(plot_index(data,sub_plot = "_is",...),
+                             plot_index(data,sub_plot = "_per",...)),
+                        nrow = 2) &
     ggplot2::theme(legend.position = "none")
 }
 
