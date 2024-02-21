@@ -63,19 +63,27 @@
     },
     "REDCapCAST": {
       "Package": "REDCapCAST",
-      "Version": "24.1.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
+      "Version": "24.2.1",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "REDCapCAST",
+      "RemoteUsername": "agdamsbo",
+      "RemotePkgRef": "agdamsbo/REDCapCAST",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "796826d7d9791734eb8e1e1cfc60641d7a9ffd4a",
       "Requirements": [
         "R",
         "REDCapR",
         "dplyr",
         "keyring",
         "purrr",
+        "readr",
+        "stats",
         "tidyr",
         "tidyselect"
       ],
-      "Hash": "d84e3ea1eceda695aa1b6bb34973ccbd"
+      "Hash": "d4161aaf67ecc751ad1273e7717b2ee3"
     },
     "REDCapR": {
       "Package": "REDCapR",
@@ -711,6 +719,23 @@
       ],
       "Hash": "2a0dc8c6adfb6f032e4d4af82d258ab5"
     },
+    "openxlsx2": {
+      "Package": "openxlsx2",
+      "Version": "1.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "R6",
+        "Rcpp",
+        "grDevices",
+        "magrittr",
+        "stringi",
+        "utils",
+        "zip"
+      ],
+      "Hash": "9fa7cdc5fbdb1c8511fdde72a944db63"
+    },
     "patchwork": {
       "Package": "patchwork",
       "Version": "1.2.0",
@@ -1156,6 +1181,13 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "29240487a071f535f5e5d5a323b7afbd"
+    },
+    "zip": {
+      "Package": "zip",
+      "Version": "2.3.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "fcc4bd8e6da2d2011eb64a5e5cc685ab"
     }
   }
 }

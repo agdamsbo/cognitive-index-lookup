@@ -16,7 +16,9 @@ Imports:
     vctrs (>= 0.6.4),
     patchwork,
     tidyselect,
-    REDCapCAST
+    REDCapCAST,
+    openxlsx2,
+    readr
 Suggests: 
     devtools,
     shinylive,
