@@ -15,7 +15,8 @@ httpuv::runStaticServer(dir = "docs")
 cognitive.index.lookup::shiny_deploy_index()
 
 ## Examples
-
+library(cognitive.index.lookup)
+library(patchwork)
 
 sample_data |> 
   index_from_raw() |> 
@@ -25,6 +26,7 @@ sample_data |>
 
 sample_data |> 
   index_from_raw() |> 
-  head(5) |> 
+  dplyr::filter(id %in% 1:5) |>
+  dplyr::filter(ab==1) |>
   plot_index2(facet.by="ab") #&
   # patchwork::plot_annotation(tag_levels = list(c("Score","","Percentile","")))
