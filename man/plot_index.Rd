@@ -33,7 +33,7 @@ ggplot list object
 Plot index data. Assumes first column is id
 }
 \examples{
-ds <- sample_data  |> index_from_raw()
+ds <- cognitive.index.lookup::sample_data  |> index_from_raw()
 ds |> tibble::tibble() |> dplyr::filter(ab=="1") |>  plot_index(facet.by="ab")
 ds |> tibble::tibble() |>  plot_index()
 data <- ds

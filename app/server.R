@@ -8,9 +8,10 @@ server <- function(input, output, session) {
   
   library(tidyr)
   
-  source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/index_from_raw.R")
-  source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/plot_index.R")
-  source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/read_file.R")
+  # source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/index_from_raw.R")
+  # source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/plot_index.R")
+  # source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/read_file.R")
+  source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/functions.R")
   index_table <- read.csv("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/data-raw/index_table.csv")
   
   # To allow shinylive running, functions are directly sourced:

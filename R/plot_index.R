@@ -8,9 +8,9 @@
 #' @param dom_names domain names
 #'
 #' @return data frame
-#' @importFrom tidyr pivot_longer
+#' @export
 plot_prep <- function(data,sub_plot,scores,grp.color,facet.by,dom_names){
-  library(tidyr)
+   requireNamespace("tidyr")
   out <- data|>
     dplyr::select(tidyselect::all_of(c(colnames(dplyr::select(data,tidyselect::matches(grp.color))),
                                        {{facet.by}},

@@ -11,3 +11,4 @@ docs/shinylive/
 ^app$
 ^docs$
 ^launch\.R$
+R/functions.R
