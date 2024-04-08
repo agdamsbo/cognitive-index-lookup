@@ -12,7 +12,10 @@ httpuv::runStaticServer(dir = "docs")
 
 # Deploy on rsconnect
 # renv::install("agdamsbo/cognitive.index.lookup")
-cognitive.index.lookup::shiny_deploy_index()
+project.aid::deploy_shiny(account.name = "cognitiveindex",
+                          name.app = "index_app",
+                          name.token = "rsconnect_cognitiveindex_token",
+                          name.secret = "rsconnect_cognitiveindex_secret")
 
 ## Examples
 library(cognitive.index.lookup)
@@ -30,3 +33,6 @@ sample_data |>
   dplyr::filter(ab==1) |>
   plot_index2(facet.by="ab") #&
   # patchwork::plot_annotation(tag_levels = list(c("Score","","Percentile","")))
+
+
+
