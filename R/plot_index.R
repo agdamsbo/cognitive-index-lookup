@@ -8,7 +8,9 @@
 #' @param dom_names domain names
 #'
 #' @return data frame
+#' @importFrom tidyr pivot_longer
 plot_prep <- function(data,sub_plot,scores,grp.color,facet.by,dom_names){
+  library(tidyr)
   out <- data|>
     dplyr::select(tidyselect::all_of(c(colnames(dplyr::select(data,tidyselect::matches(grp.color))),
                                        {{facet.by}},
@@ -92,7 +94,7 @@ plot_stitch <- function(list,fun=index_sub_plot,grp.color){
 #' @export
 #'
 #' @examples
-#' ds <- sample_data  |> index_from_raw()
+#' ds <- cognitive.index.lookup::sample_data  |> index_from_raw()
 #' ds |> tibble::tibble() |> dplyr::filter(ab=="1") |>  plot_index(facet.by="ab")
 #' ds |> tibble::tibble() |>  plot_index()
 #' data <- ds
