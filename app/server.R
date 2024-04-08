@@ -8,7 +8,12 @@ server <- function(input, output, session) {
   
   library(tidyr)
   library(patchwork)
-  
+  library(ggplot2)
+  library(dplyr)
+  library(tidyselect)
+  library(openxlsx2)
+  library(readr)
+  library(purrr)
   
   # source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/index_from_raw.R")
   # source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/plot_index.R")

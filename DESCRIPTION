@@ -8,7 +8,6 @@ Description: Index table lookup for summarised raw scores for the RBANS tool.
 License: GPL (>= 3)
 Encoding: UTF-8
 Imports: 
-    here,
     shiny,
     ggplot2,
     dplyr,
@@ -19,6 +18,7 @@ Imports:
     readr,
     purrr
 Suggests: 
+    here,
     devtools,
     shinylive,
     httpuv,
