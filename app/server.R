@@ -1,10 +1,11 @@
 server <- function(input, output, session) {
-  require(dplyr)
-  require(ggplot2)
-  require(tidyr)
   require(shiny)
   # require(cognitive.index.lookup)
-  list.files(here::here("R/"),full.names = TRUE) |> lapply(source)
+  # list.files(here::here("R"),full.names = TRUE) |> lapply(source)
+  source(here::here("R/index_from_raw.R"))
+  source(here::here("R/plot_index.R"))
+  source(here::here("R/read_file.R"))
+  index_table <- read.csv(here::here("data-raw/index_table.csv"))
   
   # To allow shinylive running, functions are directly sourced:
   # source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/index_from_raw.R")

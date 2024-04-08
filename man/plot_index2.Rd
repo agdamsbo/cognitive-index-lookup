@@ -17,3 +17,11 @@ ggplot list
 \description{
 Plot index and percentile
 }
+\examples{
+sample_data |> 
+ index_from_raw() |> 
+ dplyr::filter(id \%in\% 1:5) |>
+ dplyr::filter(ab==1) |>
+ plot_index2(facet.by="ab")
+
+}
