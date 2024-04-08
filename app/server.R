@@ -7,6 +7,8 @@ server <- function(input, output, session) {
   # index_table <- read.csv(here::here("data-raw/index_table.csv"))
   
   library(tidyr)
+  library(patchwork)
+  
   
   # source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/index_from_raw.R")
   # source("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/R/plot_index.R")
