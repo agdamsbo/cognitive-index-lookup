@@ -27,9 +27,7 @@ Suggests:
     pak,
     renv,
     roxygen2,
-    rsconnect,
-    styler,
-    usethis
+    styler
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Depends: 
