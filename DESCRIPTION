@@ -1,6 +1,6 @@
 Package: cognitive.index.lookup
 Title: Cognitive index score for specific assessment tool
-Version: 24.1.2
+Version: 24.4.1
 Authors@R: 
     person("Andreas Gammelgaard", "Damsbo", , "agdamsbo@clin.au.dk", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7559-1154"))
@@ -13,16 +13,16 @@ Imports:
     ggplot2,
     dplyr,
     tidyr,
-    vctrs (>= 0.6.4),
     patchwork,
     tidyselect,
-    REDCapCAST,
     openxlsx2,
-    readr
+    readr,
+    purrr
 Suggests: 
     devtools,
     shinylive,
     httpuv,
+    tibble,
     lubridate,
     pak,
     renv,
