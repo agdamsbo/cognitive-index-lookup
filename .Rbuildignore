@@ -12,3 +12,4 @@ docs/shinylive/
 ^docs$
 ^launch\.R$
 R/functions.R
+^CODE_OF_CONDUCT\.md$
