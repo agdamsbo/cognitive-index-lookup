@@ -2,7 +2,7 @@
 # cognitive.index.lookup
 
 <!-- badges: start -->
-[![pages-build-deployment](https://github.com/agdamsbo/cognitive.index.lookup/actions/workflows/pages-build-deployment.yaml/badge.svg)](https://github.com/agdamsbo/cognitive.index.lookup/actions/workflows/pages-build-deployment.yaml)
+[![pages-build-deployment](https://github.com/agdamsbo/cognitive.index.lookup/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/agdamsbo/cognitive.index.lookup/actions/workflows/pages/pages-build-deployment)
 <!-- badges: end -->
 
 Cognitive index score for specific assessment tool.
