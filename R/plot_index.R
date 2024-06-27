@@ -66,6 +66,8 @@ plot_prep <- function(data, sub_plot, scores, grp.color, facet.by, dom_names) {
 #' @return ggplot2 list object
 index_sub_plot <- function(data, grp.color, plot.ci = FALSE) {
   grp <- data[[grp.color]]
+  # browser()
+  # data <- data |> dplyr::filter(name=="immediate") |> dplyr::mutate(name=factor(name))
 
   p <- data |>
     ggplot2::ggplot(ggplot2::aes(x = name, y = value, color = grp, group = grp)) +
@@ -81,8 +83,19 @@ index_sub_plot <- function(data, grp.color, plot.ci = FALSE) {
     ggplot2::labs(colour = grp.color)
 
   if (plot.ci) {
+    if (length(unique(data$name)) == 1) {
+      p <- p +
+        ggplot2::geom_errorbar(ggplot2::aes(ymin = lo, ymax = up),
+          width = .2,
+          linewidth = 1.2
+        ) +
+        ggplot2::theme(legend.position = "none")
+    }
     p <- p +
-      ggplot2::geom_ribbon(ggplot2::aes(ymin=lo, ymax=up,fill=grp), alpha=0.2, color=NA)+
+      ggplot2::geom_ribbon(ggplot2::aes(ymin = lo, ymax = up, fill = grp),
+        alpha = 0.2,
+        color = NA
+      ) +
       ggplot2::labs(fill = grp.color)
   }
 
@@ -120,7 +133,7 @@ percentile_sub_plot <- function(data, grp.color) {
 plot_stitch <- function(list, fun = index_sub_plot, grp.color, ...) {
   list |>
     purrr::list_flatten() |>
-    lapply(fun, grp.color=grp.color, ...) |>
+    lapply(fun, grp.color = grp.color, ...) |>
     patchwork::wrap_plots(guides = "collect", ncol = 2, widths = c(5, 1), tag_level = "new")
 }
 
@@ -141,15 +154,15 @@ plot_stitch <- function(list, fun = index_sub_plot, grp.color, ...) {
 #' ds <- cognitive.index.lookup::sample_data |> index_from_raw()
 #' ds |>
 #'   tibble::tibble() |>
-#'   plot_index(facet.by = "ab",plot.ci=TRUE)
+#'   plot_index(facet.by = "ab", plot.ci = TRUE)
 #' ds |>
 #'   tibble::tibble() |>
-#'   dplyr::filter(ab == "1")|>
-#'   plot_index(plot.ci=TRUE)
+#'   dplyr::filter(ab == "1") |>
+#'   plot_index(plot.ci = TRUE)
 #' ds |>
 #'   tibble::tibble() |>
-#'   dplyr::filter(ab == "1")|>
-#'   plot_index(sub_plot="_per",plot.ci=TRUE)
+#'   dplyr::filter(ab == "1") |>
+#'   plot_index(sub_plot = "_per", plot.ci = TRUE)
 #' data <- ds
 plot_index <- function(data,
                        sub_plot = "_is",
@@ -168,7 +181,7 @@ plot_index <- function(data,
       facet.by <- NULL
     }
   }
-  
+
   df_plot <- data |> plot_prep(sub_plot, scores, grp.color, facet.by, dom_names)
 
   if (!is.null(facet.by)) {
@@ -189,14 +202,14 @@ plot_index <- function(data,
           split(x, x$name == "total") |>
             setNames(c("domains", "total"))
         }) |>
-        plot_stitch(grp.color = grp.color,plot.ci=plot.ci)
+        plot_stitch(grp.color = grp.color, plot.ci = plot.ci)
     } else {
       df_plot |>
         (\(x){
           split(x, x$name == "total")
         })() |>
         setNames(c("domains", "total")) |>
-        plot_stitch(grp.color = grp.color,plot.ci=plot.ci)
+        plot_stitch(grp.color = grp.color, plot.ci = plot.ci)
     }
   } else if (sub_plot == "_per") {
     if (!is.null(facet.by)) {
