@@ -149,8 +149,26 @@ ui <- bslib::page_navbar(
           ".xls"
         )
       ),
+      # conditionalPanel(
+      #   condition = "output.rendered=='yes'",
+      
       helpText(em("Please specify relevant columns from your data, and press 'Load data'")),
       uiOutput("id_sel"),
+      radioButtons(
+        inputId = "include",
+        label = "Include all",
+        inline = TRUE,
+        choiceNames = c(
+          "Yes",
+          "No"
+        ),
+        choiceValues = c(1, 2)
+      ),
+      conditionalPanel(
+        condition = "input.include==2",
+      uiOutput("ids")
+      )
+      ,
       uiOutput("ab_sel"),
       helpText(em("If no version variable is selected, only the first instance of each ID is plotted.")),
       uiOutput("age_sel"),
@@ -160,6 +178,8 @@ ui <- bslib::page_navbar(
       uiOutput("att_sel"),
       uiOutput("del_sel"),
       actionButton("load", "Load data", class = "btn-primary")
+      # ,
+      # )
       # Horizontal line ----
       # tags$hr(),
 

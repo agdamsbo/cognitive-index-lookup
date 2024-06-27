@@ -44,7 +44,12 @@ server <- function(input, output, session) {
       stringsAsFactors = FALSE
     )
   })
-
+  
+  v <- shiny::reactiveValues(
+    index = NULL,
+    dat_u = NULL
+  )
+  
   dat_u <- shiny::reactive({
     # input$file1 will be NULL initially. After the user selects
     # and uploads a file, head of that data file by default,
@@ -58,7 +63,8 @@ server <- function(input, output, session) {
     #                sep = input$sep,
     #                quote = input$quote
     # )
-    read_input(input$file1$datapath)
+    v$dat_u <- "present"
+    return(read_input(input$file1$datapath))
   })
 
   output$id_sel <- shiny::renderUI({
@@ -71,6 +77,16 @@ server <- function(input, output, session) {
     )
   })
 
+  output$ids <- shiny::renderUI({
+    selectizeInput(
+      inputId = "ids",
+      selected = "id",
+      label = "IDs to include",
+      choices = dat_u()[[input$id_col]],
+      multiple = TRUE
+    )
+  })
+  
   output$ab_sel <- shiny::renderUI({
     selectInput(
       inputId = "ab_col",
@@ -188,13 +204,14 @@ server <- function(input, output, session) {
           dplyr::filter(!duplicated(id))
       }
       
+      if (!is.null(input$ids)){
+        ds <- ds |> 
+          dplyr::filter(id %in% input$ids)
+      }
+      
       return(ds)
     }
   })
-
-  v <- shiny::reactiveValues(
-    index = NULL
-  )
   
   shiny::observeEvent({input$load;input$type;dat()}, {
     # if (input$type == 1)
@@ -229,6 +246,21 @@ server <- function(input, output, session) {
     
   })
 
+  
+  output$rendered <- shiny::reactive({
+    if (is.null(v$dat_u)) {
+      "no"
+    } else {
+      "yes"
+    }
+  })
+  
+  #####
+  #### Generating output
+  #####
+  
+  shiny::outputOptions(output, 'rendered', suspendWhenHidden = FALSE)
+  
   # Downloadable csv of selected dataset ----
   output$downloadData <- shiny::downloadHandler(
     filename = "index_lookup.csv",
