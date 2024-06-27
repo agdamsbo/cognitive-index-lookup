@@ -1,6 +1,8 @@
 # Prep for shiny
 # system2("cat ./R/index_from_raw.R ./R/plot_index.R ./R/read_file.R > ./R/functions.R")
 
+project.aid::merge_scripts(list.files("R/",full.names = TRUE),dest = here::here("app/functions.R"))
+
 # Typical shiny
 cognitive.index.lookup::shiny_index()
 
