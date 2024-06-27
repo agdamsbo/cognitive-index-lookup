@@ -17,7 +17,7 @@ httpuv::runStaticServer(dir = "docs")
 
 # Deploy on rsconnect
 # pak::pak("agdamsbo/project.aid")
-project.aid::deploy_shiny(account.name = "cognitiveindex",
+project.aid::deploy_shiny(account.name = "cognitiveindex",files = c("server.R","ui.R"),
                           name.app = "index_app",
                           name.token = "rsconnect_cognitiveindex_token",
                           name.secret = "rsconnect_cognitiveindex_secret")

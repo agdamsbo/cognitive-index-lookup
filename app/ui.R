@@ -70,7 +70,7 @@ ui <- bslib::page_navbar(
     tags$hr(),
     radioButtons(
       inputId = "ci",
-      label = "Plot confidence intervals",
+      label = "Plot 95% confidence intervals",
       inline = FALSE,
       choiceNames = c(
         "No",

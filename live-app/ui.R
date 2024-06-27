@@ -39,13 +39,6 @@ ui <- bslib::page_navbar(
   header=h6("Please note this calculator is only meant as a proof of concept for educational purposes,
      and the author will take no responsibility for the results of the calculator.
      Uploaded data is not kept, but please, do not upload any sensitive data."),
-
-  ## -----------------------------------------------------------------------------
-  ## Application title
-  ## -----------------------------------------------------------------------------
-  # titlePanel("Calculating cognitive index scores in multidimensional testing.",
-  #   windowTitle = "Cognitive test index calculator"
-  # ),
   
 
   ## -----------------------------------------------------------------------------
@@ -67,7 +60,17 @@ ui <- bslib::page_navbar(
       choiceValues = c(1, 2)
     ),
 
-    # Horizontal line ----
+    tags$hr(),
+    radioButtons(
+      inputId = "ci",
+      label = "Plot 95% confidence intervals",
+      inline = FALSE,
+      choiceNames = c(
+        "No",
+        "Yes"
+      ),
+      choiceValues = c(FALSE, TRUE)
+    ),
     tags$hr(),
 
     ## -----------------------------------------------------------------------------
