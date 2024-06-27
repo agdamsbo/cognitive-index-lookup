@@ -10,7 +10,8 @@ plot_index(
   scores = c("_is", "_lo", "_up", "_per"),
   dom_names = c("immediate", "visuospatial", "verbal", "attention", "delayed", "total"),
   facet.by = NULL,
-  grp.color = NULL
+  grp.color = NULL,
+  plot.ci = FALSE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ plot_index(
 \item{facet.by}{variable to base facet_grid on.}
 
 \item{grp.color}{color grouping for ggplot}
+
+\item{plot.ci}{option to include CI in plot}
 }
 \value{
 ggplot list object
@@ -33,8 +36,17 @@ ggplot list object
 Plot index data. Assumes first column is id
 }
 \examples{
-ds <- cognitive.index.lookup::sample_data  |> index_from_raw()
-ds |> tibble::tibble() |> dplyr::filter(ab=="1") |>  plot_index(facet.by="ab")
-ds |> tibble::tibble() |>  plot_index()
+ds <- cognitive.index.lookup::sample_data |> index_from_raw()
+ds |>
+  tibble::tibble() |>
+  plot_index(facet.by = "ab",plot.ci=TRUE)
+ds |>
+  tibble::tibble() |>
+  dplyr::filter(ab == "1")|>
+  plot_index(plot.ci=TRUE)
+ds |>
+  tibble::tibble() |>
+  dplyr::filter(ab == "1")|>
+  plot_index(sub_plot="_per",plot.ci=TRUE)
 data <- ds
 }

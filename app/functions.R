@@ -289,12 +289,16 @@ percentile_sub_plot <- function(data, grp.color) {
 
 
 
-plot_stitch <- function(list, fun = index_sub_plot, grp.color, plot.ci=FALSE) {
+plot_stitch <- function(list, fun = index_sub_plot, grp.color, ...) {
   list |>
     purrr::list_flatten() |>
-    lapply(fun, grp.color=grp.color, plot.ci=plot.ci) |>
+    lapply(fun, grp.color=grp.color, ...) |>
     patchwork::wrap_plots(guides = "collect", ncol = 2, widths = c(5, 1), tag_level = "new")
 }
+
+
+
+
 
 
 

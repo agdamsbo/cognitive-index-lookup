@@ -4,7 +4,7 @@
 \alias{plot_stitch}
 \title{Stitch ggplots}
 \usage{
-plot_stitch(list, fun = index_sub_plot, grp.color)
+plot_stitch(list, fun = index_sub_plot, grp.color, ...)
 }
 \arguments{
 \item{list}{list of plots}
@@ -12,6 +12,8 @@ plot_stitch(list, fun = index_sub_plot, grp.color)
 \item{fun}{function to use for plotting}
 
 \item{grp.color}{column to color}
+
+\item{...}{<\code{\link[rlang:dyn-dots]{dynamic-dots}}> Accepts plot.ci option to include CI in plot}
 }
 \value{
 ggplot2 list object

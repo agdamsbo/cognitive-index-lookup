@@ -114,13 +114,13 @@ percentile_sub_plot <- function(data, grp.color) {
 #' @param list list of plots
 #' @param fun function to use for plotting
 #' @param grp.color column to color
-#' @param plot.ci option to include CI in plot
+#' @param ... <[`dynamic-dots`][rlang::dyn-dots]> Accepts plot.ci option to include CI in plot
 #'
 #' @return ggplot2 list object
-plot_stitch <- function(list, fun = index_sub_plot, grp.color, plot.ci=FALSE) {
+plot_stitch <- function(list, fun = index_sub_plot, grp.color, ...) {
   list |>
     purrr::list_flatten() |>
-    lapply(fun, grp.color=grp.color, plot.ci=plot.ci) |>
+    lapply(fun, grp.color=grp.color, ...) |>
     patchwork::wrap_plots(guides = "collect", ncol = 2, widths = c(5, 1), tag_level = "new")
 }
 
@@ -146,6 +146,10 @@ plot_stitch <- function(list, fun = index_sub_plot, grp.color, plot.ci=FALSE) {
 #'   tibble::tibble() |>
 #'   dplyr::filter(ab == "1")|>
 #'   plot_index(plot.ci=TRUE)
+#' ds |>
+#'   tibble::tibble() |>
+#'   dplyr::filter(ab == "1")|>
+#'   plot_index(sub_plot="_per",plot.ci=TRUE)
 #' data <- ds
 plot_index <- function(data,
                        sub_plot = "_is",

@@ -4,12 +4,14 @@
 \alias{index_sub_plot}
 \title{Plots index scores}
 \usage{
-index_sub_plot(data, grp.color)
+index_sub_plot(data, grp.color, plot.ci = FALSE)
 }
 \arguments{
 \item{data}{data set}
 
 \item{grp.color}{column to color}
+
+\item{plot.ci}{option to include CI in plot}
 }
 \value{
 ggplot2 list object

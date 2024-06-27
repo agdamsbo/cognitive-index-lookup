@@ -9,6 +9,7 @@ troubles.R
 docs/shinylive/
 ^data-raw$
 ^app$
+^live-app$
 ^docs$
 ^launch\.R$
 R/functions.R
