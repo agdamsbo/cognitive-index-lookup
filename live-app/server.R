@@ -213,30 +213,6 @@ server <- function(input, output, session) {
     
   })
   
-  
-  
-
-  # output$ndx.tbl <- shiny::renderTable({
-  #   index_p() |>
-  #     dplyr::select("id", "ab", dplyr::contains("_is")) |>
-  #     setNames(c("ID", "ab", "imm", "vis", "ver", "att", "del", "Total"))
-  # })
-  # 
-  # output$per.tbl <- shiny::renderTable({
-  #   index_p() |>
-  #     dplyr::select("id", "ab", dplyr::contains("_per")) |>
-  #     setNames(c("ID", "ab", "imm", "vis", "ver", "att", "del", "Total"))
-  # })
-  # 
-  # 
-  # output$ndx.plt <- shiny::renderPlot({
-  #   index_p() |> plot_index(sub_plot = "_is", facet.by = "ab")
-  # })
-  # 
-  # output$per.plt <- shiny::renderPlot({
-  #   index_p() |> plot_index(sub_plot = "_per", facet.by = "ab")
-  # })
-
   # Downloadable csv of selected dataset ----
   output$downloadData <- shiny::downloadHandler(
     filename = "index_lookup.csv",
