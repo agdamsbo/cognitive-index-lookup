@@ -6,7 +6,7 @@ cognitive.index.lookup::shiny_index()
 
 # Shinylive version
 
-shinylive::export(appdir = "app", destdir = "docs")
+shinylive::export(appdir = "live-app", destdir = "docs")
 
 httpuv::runStaticServer(dir = "docs")
 
@@ -14,7 +14,7 @@ httpuv::runStaticServer(dir = "docs")
 # Publish on ... free, limited instance (old traditional shiny host)
 
 # Deploy on rsconnect
-# renv::install("agdamsbo/cognitive.index.lookup")
+# pak::pak("agdamsbo/project.aid")
 project.aid::deploy_shiny(account.name = "cognitiveindex",
                           name.app = "index_app",
                           name.token = "rsconnect_cognitiveindex_token",

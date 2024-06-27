@@ -7,7 +7,7 @@
 
 Cognitive index score for specific assessment tool.
 
-The tool has been implemented with [shinylive for `R`](https://posit-dev.github.io/r-shinylive/) to run live in the browser without any remote data storage. It is available here: [https://agdamsbo.github.io/cognitive.index.lookup/](https://agdamsbo.github.io/cognitive.index.lookup/).
+The tool has been implemented with [shinylive for `R`](https://posit-dev.github.io/r-shinylive/) to run live in the browser without any remote data storage. It is available here: [https://agdamsbo.github.io/cognitive.index.lookup/](https://agdamsbo.github.io/cognitive.index.lookup/). Please note that the app runs with a little delay as it runs purely in the browser including all the computations and plotting.
 
 ## Installation an example use
 
