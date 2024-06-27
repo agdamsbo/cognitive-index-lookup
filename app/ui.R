@@ -67,9 +67,18 @@ ui <- bslib::page_navbar(
       choiceValues = c(1, 2)
     ),
 
-    # Horizontal line ----
     tags$hr(),
-
+    radioButtons(
+      inputId = "ci",
+      label = "Plot confidence intervals",
+      inline = FALSE,
+      choiceNames = c(
+        "No",
+        "Yes"
+      ),
+      choiceValues = c(FALSE, TRUE)
+    ),
+    tags$hr(),
     ## -----------------------------------------------------------------------------
     ## Single entry
     ## -----------------------------------------------------------------------------
