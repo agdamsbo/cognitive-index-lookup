@@ -1,5 +1,3 @@
-
-
 server <- function(input, output, session) {
   # require(cognitive.index.lookup)
   # list.files(here::here("R"),full.names = TRUE) |> lapply(source)
@@ -62,85 +60,85 @@ server <- function(input, output, session) {
   })
 
   output$id_sel <- shiny::renderUI({
-    varSelectInput(
+    selectInput(
       inputId = "id_col",
       selected = "id",
       label = "ID column",
-      data = dat_u(),
+      choices = colnames(dat_u()),
       multiple = FALSE
     )
   })
 
   output$ab_sel <- shiny::renderUI({
-    varSelectInput(
+    selectInput(
       inputId = "ab_col",
-      selected = "ab",
-      label = "Version column",
-      data = dat_u(),
+      selected = NULL,
+      label = "Version column (optional)",
+      choices = c("none", colnames(dat_u())),
       multiple = FALSE
     )
   })
 
   output$age_sel <- shiny::renderUI({
-    varSelectInput(
+    selectInput(
       inputId = "age_col",
       selected = "age",
       label = "Age column",
-      data = dat_u(),
+      choices = colnames(dat_u()),
       multiple = FALSE
     )
   })
 
   output$imm_sel <- shiny::renderUI({
-    varSelectInput(
+    selectInput(
       inputId = "imm_col",
       selected = "imm",
       label = "Immediate memory",
-      data = dat_u(),
+      choices = colnames(dat_u()),
       multiple = FALSE
     )
   })
 
 
   output$vis_sel <- shiny::renderUI({
-    varSelectInput(
+    selectInput(
       inputId = "vis_col",
       selected = "vis",
       label = "Visuospatial functions",
-      data = dat_u(),
+      choices = colnames(dat_u()),
       multiple = FALSE
     )
   })
 
 
   output$ver_sel <- shiny::renderUI({
-    varSelectInput(
+    selectInput(
       inputId = "ver_col",
       selected = "ver",
       label = "Verbal functions",
-      data = dat_u(),
+      choices = colnames(dat_u()),
       multiple = FALSE
     )
   })
 
 
   output$att_sel <- shiny::renderUI({
-    varSelectInput(
+    selectInput(
       inputId = "att_col",
       selected = "att",
       label = "Attention",
-      data = dat_u(),
+      choices = colnames(dat_u()),
       multiple = FALSE
     )
   })
 
 
   output$del_sel <- shiny::renderUI({
-    varSelectInput(
+    selectInput(
       inputId = "del_col",
       selected = "del",
       label = "Delayed memory",
-      data = dat_u(),
+      choices = colnames(dat_u()),
       multiple = FALSE
     )
   })
@@ -149,7 +147,7 @@ server <- function(input, output, session) {
     if (input$type == 1) {
       dat()
     } else if (input$type == 2) {
-      
+      # browser()
 
       dat <- dat_u()
       cols <- list(
@@ -162,57 +160,74 @@ server <- function(input, output, session) {
         input$att_col,
         input$del_col
       )
-      
-      
-      if (any(is.null(cols)) | any(!(cols %in% names(dat)))) {
+
+      if (any(is.null(cols)) | any(!(cols %in% c("none", names(dat))))) {
         return()
       }
       # browser()
-      cols |> 
-        purrr::map(\(.x) eval(.x,dat))  |> 
-        dplyr::bind_cols(.name_repair = "unique_quiet")|> 
-        stats::setNames(c("id","ab","age","imm", "vis", "ver", "att", "del"))
-      # dat |> dplyr::select(purrr::reduce(,c))
+      ds <- cols |>
+        purrr::map(\(.x){
+          if (.x == "none") {
+            dat |>
+              dplyr::mutate(.x = 1) |>
+              dplyr::select(.x)
+          } else {
+            dplyr::select(dat, .x)
+          }
+        }) |>
+        dplyr::bind_cols(.name_repair = "unique_quiet") |>
+        stats::setNames(c("id", "ab", "age", "imm", "vis", "ver", "att", "del"))
+
+      if (length(unique(ds$ab)) == 1) {
+        ds <- ds |>
+          dplyr::filter(!duplicated(id))
+      }
+
+      return(ds)
     }
   })
 
   v <- shiny::reactiveValues(
     index = NULL
   )
-  
-  shiny::observeEvent({input$load}, {
-    # if (input$type == 1)
-    
-    v$index <- dat_f() |> index_from_raw(
+
+  shiny::observeEvent(
+    {
+      input$load
+    },
+    {
+      # if (input$type == 1)
+
+      v$index <- dat_f() |> index_from_raw(
         indx = index_table,
         version.col = "ab",
         age.col = "age",
         raw_columns = c("imm", "vis", "ver", "att", "del")
       )
-    
+
       output$ndx.tbl <- shiny::renderTable({
         v$index |>
-      dplyr::select("id", "ab", dplyr::contains("_is")) |>
-      setNames(c("ID", "ab", "imm", "vis", "ver", "att", "del", "Total"))
-  })
+          dplyr::select("id", "ab", dplyr::contains("_is")) |>
+          setNames(c("ID", "ab", "imm", "vis", "ver", "att", "del", "Total"))
+      })
 
-  output$per.tbl <- shiny::renderTable({
-    v$index |>
-      dplyr::select("id", "ab", dplyr::contains("_per")) |>
-      setNames(c("ID", "ab", "imm", "vis", "ver", "att", "del", "Total"))
-  })
+      output$per.tbl <- shiny::renderTable({
+        v$index |>
+          dplyr::select("id", "ab", dplyr::contains("_per")) |>
+          setNames(c("ID", "ab", "imm", "vis", "ver", "att", "del", "Total"))
+      })
 
 
-  output$ndx.plt <- shiny::renderPlot({
-    v$index |> plot_index(sub_plot = "_is", facet.by = "ab",plot.ci=input$ci)
-  })
+      output$ndx.plt <- shiny::renderPlot({
+        v$index |> plot_index(sub_plot = "_is", facet.by = "ab", plot.ci = input$ci)
+      })
 
-  output$per.plt <- shiny::renderPlot({
-    v$index |> plot_index(sub_plot = "_per", facet.by = "ab")
-  })
-    
-  })
-  
+      output$per.plt <- shiny::renderPlot({
+        v$index |> plot_index(sub_plot = "_per", facet.by = "ab")
+      })
+    }
+  )
+
   # Downloadable csv of selected dataset ----
   output$downloadData <- shiny::downloadHandler(
     filename = "index_lookup.csv",
@@ -221,5 +236,3 @@ server <- function(input, output, session) {
     }
   )
 }
-
-

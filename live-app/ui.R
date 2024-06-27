@@ -146,6 +146,7 @@ ui <- bslib::page_navbar(
       helpText(em("Please specify relevant columns from your data, and press 'Load data'")),
       uiOutput("id_sel"),
       uiOutput("ab_sel"),
+      helpText(em("If no version variable is selected, only the first instance of each ID is plotted.")),
       uiOutput("age_sel"),
       uiOutput("imm_sel"),
       uiOutput("vis_sel"),

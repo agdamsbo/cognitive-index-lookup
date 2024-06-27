@@ -62,85 +62,85 @@ server <- function(input, output, session) {
   })
 
   output$id_sel <- shiny::renderUI({
-    varSelectInput(
+    selectInput(
       inputId = "id_col",
       selected = "id",
       label = "ID column",
-      data = dat_u(),
+      choices = colnames(dat_u()),
       multiple = FALSE
     )
   })
 
   output$ab_sel <- shiny::renderUI({
-    varSelectInput(
+    selectInput(
       inputId = "ab_col",
-      selected = "ab",
-      label = "Version column",
-      data = dat_u(),
+      selected = NULL,
+      label = "Version column (optional)",
+      choices = c("none",colnames(dat_u())),
       multiple = FALSE
     )
   })
 
   output$age_sel <- shiny::renderUI({
-    varSelectInput(
+    selectInput(
       inputId = "age_col",
       selected = "age",
       label = "Age column",
-      data = dat_u(),
+      choices = colnames(dat_u()),
       multiple = FALSE
     )
   })
 
   output$imm_sel <- shiny::renderUI({
-    varSelectInput(
+    selectInput(
       inputId = "imm_col",
       selected = "imm",
       label = "Immediate memory",
-      data = dat_u(),
+      choices = colnames(dat_u()),
       multiple = FALSE
     )
   })
 
 
   output$vis_sel <- shiny::renderUI({
-    varSelectInput(
+    selectInput(
       inputId = "vis_col",
       selected = "vis",
       label = "Visuospatial functions",
-      data = dat_u(),
+      choices = colnames(dat_u()),
       multiple = FALSE
     )
   })
 
 
   output$ver_sel <- shiny::renderUI({
-    varSelectInput(
+    selectInput(
       inputId = "ver_col",
       selected = "ver",
       label = "Verbal functions",
-      data = dat_u(),
+      choices = colnames(dat_u()),
       multiple = FALSE
     )
   })
 
 
   output$att_sel <- shiny::renderUI({
-    varSelectInput(
+    selectInput(
       inputId = "att_col",
       selected = "att",
       label = "Attention",
-      data = dat_u(),
+      choices = colnames(dat_u()),
       multiple = FALSE
     )
   })
 
 
   output$del_sel <- shiny::renderUI({
-    varSelectInput(
+    selectInput(
       inputId = "del_col",
       selected = "del",
       label = "Delayed memory",
-      data = dat_u(),
+      choices = colnames(dat_u()),
       multiple = FALSE
     )
   })
@@ -149,7 +149,7 @@ server <- function(input, output, session) {
     if (input$type == 1) {
       dat()
     } else if (input$type == 2) {
-      
+      # browser()
 
       dat <- dat_u()
       cols <- list(
@@ -162,17 +162,33 @@ server <- function(input, output, session) {
         input$att_col,
         input$del_col
       )
+      # dat <- read_csv("/Users/au301842/cognitive-index-lookup/data/sample.csv")
+      # # 
+      # cols <- list("id","none","age","imm", "vis", "ver", "att", "del")
       
-      
-      if (any(is.null(cols)) | any(!(cols %in% names(dat)))) {
+      if (any(is.null(cols)) | any(!(cols %in% c("none",names(dat))))) {
         return()
       }
       # browser()
-      cols |> 
-        purrr::map(\(.x) eval(.x,dat))  |> 
-        dplyr::bind_cols(.name_repair = "unique_quiet")|> 
+      ds <- cols |>
+        purrr::map(\(.x){
+          if (.x=="none") {
+            dat |> 
+              dplyr::mutate(.x=1) |> 
+              dplyr::select(.x)
+          } else {
+            dplyr::select(dat,.x)
+          }
+          })  |>
+        dplyr::bind_cols(.name_repair = "unique_quiet")|>
         stats::setNames(c("id","ab","age","imm", "vis", "ver", "att", "del"))
-      # dat |> dplyr::select(purrr::reduce(,c))
+      
+      if (length(unique(ds$ab))==1){
+        ds <- ds |> 
+          dplyr::filter(!duplicated(id))
+      }
+      
+      return(ds)
     }
   })
 
