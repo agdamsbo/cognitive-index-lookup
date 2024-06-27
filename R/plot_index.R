@@ -61,12 +61,10 @@ plot_prep <- function(data, sub_plot, scores, grp.color, facet.by, dom_names) {
 #'
 #' @param data data set
 #' @param grp.color column to color
+#' @param plot.ci option to include CI in plot
 #'
 #' @return ggplot2 list object
 index_sub_plot <- function(data, grp.color, plot.ci = FALSE) {
-  # browser()
-  # data <- data |> dplyr::filter(ab==1)
-  
   grp <- data[[grp.color]]
 
   p <- data |>
@@ -116,6 +114,7 @@ percentile_sub_plot <- function(data, grp.color) {
 #' @param list list of plots
 #' @param fun function to use for plotting
 #' @param grp.color column to color
+#' @param plot.ci option to include CI in plot
 #'
 #' @return ggplot2 list object
 plot_stitch <- function(list, fun = index_sub_plot, grp.color, plot.ci=FALSE) {
@@ -133,6 +132,7 @@ plot_stitch <- function(list, fun = index_sub_plot, grp.color, plot.ci=FALSE) {
 #' @param facet.by variable to base facet_grid on.
 #' @param data data set
 #' @param grp.color color grouping for ggplot
+#' @param plot.ci option to include CI in plot
 #'
 #' @return ggplot list object
 #' @export

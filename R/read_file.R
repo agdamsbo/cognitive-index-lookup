@@ -1,4 +1,3 @@
-
 #' Helper to import files correctly
 #'
 #' @param filenames file names
@@ -19,17 +18,16 @@ file_extension <- function(filenames) {
 #'
 #' @return tibble
 #' @export
-#' 
+#'
 #' @examples
 #' read_input("https://raw.githubusercontent.com/agdamsbo/cognitive.index.lookup/main/data/sample.csv")
-read_input <- function(file, consider.na= c("NA", '""',"")){
-  
+read_input <- function(file, consider.na = c("NA", '""', "")) {
   ext <- file_extension(file)
-  
+
   tryCatch(
     {
       if (ext == "csv") {
-        df <- readr::read_csv(file,na = consider.na)
+        df <- readr::read_csv(file, na = consider.na)
       } else if (ext %in% c("xls", "xlsx")) {
         df <- openxlsx2::read_xlsx(file, na.strings = consider.na)
       } else {
@@ -41,6 +39,6 @@ read_input <- function(file, consider.na= c("NA", '""',"")){
       stop(shiny::safeError(e))
     }
   )
-  
+
   df
 }
