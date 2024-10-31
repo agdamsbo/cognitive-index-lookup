@@ -30,6 +30,14 @@ server <- function(input, output, session) {
 
 
   dat <- shiny::reactive({
+    shiny::req(input$ab)
+    shiny::req(input$age)
+    shiny::req(input$rs1)
+    shiny::req(input$rs2)
+    shiny::req(input$rs3)
+    shiny::req(input$rs4)
+    shiny::req(input$rs5)
+    
     data.frame(
       "id" = "1",
       "ab" = input$ab,

@@ -32,7 +32,7 @@ cards <- list(
 )
 
 
-ui <- bslib::page_navbar(
+ui <- bslib::page_sidebar(
   theme = bslib::bs_theme(bootswatch = "minty"),
   title = "Calculating cognitive index scores in multidimensional testing.",
   window_title = "Cognitive test index calculator",
@@ -89,7 +89,9 @@ ui <- bslib::page_navbar(
       numericInput(
         inputId = "age",
         label = "Age",
-        value = 60
+        value = 60,
+        min = 20,
+        max = 100
       ),
       radioButtons(
         inputId = "ab",

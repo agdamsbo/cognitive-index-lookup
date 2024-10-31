@@ -7,6 +7,8 @@ project.aid::merge_scripts(list.files("R/",full.names = TRUE),dest = here::here(
 cognitive.index.lookup::shiny_index()
 
 # Shinylive version
+## Test live version
+shiny::runApp(appDir = here::here("live-app/"), launch.browser = TRUE)
 
 shinylive::export(appdir = "live-app", destdir = "docs")
 
